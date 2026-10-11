@@ -1,0 +1,3 @@
+// Copy to Config/SentryAuth.local.xcconfig (gitignored) to upload dSYMs.
+// Create the token in Sentry: Organization Settings → Auth Tokens.
+// SENTRY_AUTH_TOKEN = 

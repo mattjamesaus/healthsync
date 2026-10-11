@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import Sentry
 import SwiftUI
 
 @MainActor
@@ -44,6 +45,9 @@ final class AppModel: ObservableObject {
             watermarks.advance(to: result.watermarkAfter)
             lastResultMessage = result.summary
         } catch {
+            if !(error is ExportPipelineError) {
+                SentrySDK.capture(error: error)
+            }
             lastErrorMessage = error.localizedDescription
         }
     }

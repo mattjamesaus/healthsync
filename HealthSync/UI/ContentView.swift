@@ -14,7 +14,7 @@ struct ContentView: View {
                 metricsSection
                 shortcutsSection
             }
-            .navigationTitle("HealthSync")
+            .navigationTitle("Health Sync")
             // Readable column width on iPad / landscape.
             .frame(maxWidth: 720)
             .frame(maxWidth: .infinity)
@@ -72,7 +72,7 @@ struct ContentView: View {
                 }
             }
             Text(
-                "Pick an iCloud Drive or Google Drive folder in Files. HealthSync remembers it for Sync Now and Shortcuts."
+                "Pick an iCloud Drive or Google Drive folder in Files. Health Sync remembers it for Sync Now and Shortcuts."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)
@@ -129,7 +129,7 @@ struct ContentView: View {
     private var shortcutsSection: some View {
         Section("Automation") {
             Text(
-                "In the Shortcuts app, create an Automation → Time of Day → Run the “Sync Health Data” action from HealthSync. Optionally add a notification with the result."
+                "In the Shortcuts app, create an Automation → Time of Day → Run the “Sync Health Data” action from Health Sync. Optionally add a notification with the result."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)

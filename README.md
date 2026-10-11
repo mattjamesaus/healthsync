@@ -1,8 +1,8 @@
-# HealthSync
+# Health Sync
 
 Personal iOS/iPadOS app that incrementally exports Apple Health data (workouts, activity, heart, sleep, and more) as CSV into a folder you choose in the Files app — iCloud Drive or Google Drive — so your agents and tools can read it on a schedule.
 
-Inspired by [wkaisertexas/HealthLens](https://github.com/wkaisertexas/HealthLens), rebuilt for remembered destinations, incremental watermarks, and Shortcuts automation.
+Rebuilt for remembered destinations, incremental watermarks, and Shortcuts automation.
 
 ## Features
 
@@ -34,24 +34,24 @@ Dates are ISO-8601 UTC.
 
 1. Open the project:
    ```bash
-   cd /path/to/healthlens
+   cd /path/to/HealthSync
    xcodegen generate   # if the .xcodeproj is missing
    open HealthSync.xcodeproj
    ```
 2. In Xcode → Signing & Capabilities: select your **Team**, keep HealthKit enabled.
 3. Run on a physical **iPhone or iPad** (HealthKit is limited in Simulator).
 4. Grant Health read access for the metrics you enable.
-5. Tap **Choose folder…** and pick e.g. `iCloud Drive/HealthSync` or `Google Drive/HealthSync`.
+5. Tap **Choose folder…** and pick e.g. `iCloud Drive/Health Sync` or `Google Drive/Health Sync`.
 6. Tap **Sync Now** (first run backfills ~30 days).
 
 ## Daily Shortcut automation
 
 1. Open **Shortcuts** → **Automation** → **+** → **Time of Day** (e.g. 7:00 AM).
-2. Add action **Sync Health Data** (from HealthSync).
+2. Add action **Sync Health Data** (from Health Sync).
 3. Optionally add **Show Notification** / **Log** with the returned summary text.
 4. Turn off “Ask Before Running” if you want it unattended (iPadOS/iOS may still prompt depending on settings).
 
-Siri phrases also work once the app is installed, e.g. “Sync health data with HealthSync”.
+Siri phrases also work once the app is installed, e.g. “Sync health data with Health Sync”.
 
 ## Regenerating the Xcode project
 
@@ -68,3 +68,7 @@ open HealthSync.xcodeproj
 - True silent background export without Shortcuts is unreliable for HealthKit + Files; daily Shortcuts is the intended cadence.
 - Read-only HealthKit: the app requests access then queries (it does not treat `authorizationStatus` as a hard gate).
 - Reset the watermark in the app if you need another 30-day backfill.
+
+## Error reporting
+
+Sync failures and crashes are sent to Sentry. The client DSN lives in `Config/Secrets.xcconfig`. The Upload Debug Symbols build phase sends dSYMs when `SENTRY_AUTH_TOKEN` is set in the build environment or in gitignored `Config/SentryAuth.local.xcconfig` (see the example next to it).
