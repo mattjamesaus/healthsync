@@ -19,12 +19,20 @@ struct SyncHealthDataIntent: AppIntent {
             let destination = DriveDestination(
                 accountEmail: user.profile?.email ?? ""
             )
+            let layoutStore = DriveLayoutStore.shared
+            let existingWatermark = layoutStore.hasUploadedExportFiles
+                ? watermarks.watermark
+                : nil
             let result = try await ExportPipeline.shared.sync(
                 destination: destination,
                 metrics: metrics.enabledMetrics,
-                existingWatermark: watermarks.watermark
+                existingWatermark: existingWatermark
             )
-            watermarks.advance(to: result.watermarkAfter)
+            let wroteRows = result.sampleRowsWritten + result.workoutRowsWritten > 0
+            let shouldAdvance = wroteRows || existingWatermark != nil
+            watermarks.recordCompletion(
+                advancingWatermarkTo: shouldAdvance ? result.watermarkAfter : nil
+            )
             return .result(value: result.summary)
         } catch {
             if !(error is ExportPipelineError), !(error is GoogleAuthError) {

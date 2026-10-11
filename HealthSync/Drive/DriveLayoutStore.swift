@@ -44,4 +44,13 @@ final class DriveLayoutStore: @unchecked Sendable {
         defer { lock.unlock() }
         try? FileManager.default.removeItem(at: url)
     }
+
+    /// True once at least one samples/ or workouts/ CSV has been uploaded.
+    /// A leftover Files-app watermark must not skip the first Drive backfill.
+    var hasUploadedExportFiles: Bool {
+        guard let layout = load() else { return false }
+        return layout.files.keys.contains { path in
+            path.hasPrefix("samples/") || path.hasPrefix("workouts/")
+        }
+    }
 }

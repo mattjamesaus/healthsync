@@ -29,8 +29,16 @@ final class WatermarkStore: ObservableObject {
     }
 
     func advance(to date: Date) {
-        defaults.set(date.timeIntervalSince1970, forKey: watermarkKey)
+        recordCompletion(advancingWatermarkTo: date)
+    }
+
+    /// Records that a sync finished. Pass `nil` to keep the current watermark
+    /// (used when a first Drive backfill wrote no rows).
+    func recordCompletion(advancingWatermarkTo date: Date?) {
         defaults.set(Date().timeIntervalSince1970, forKey: lastSyncDisplayKey)
+        if let date {
+            defaults.set(date.timeIntervalSince1970, forKey: watermarkKey)
+        }
         reload()
     }
 

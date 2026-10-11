@@ -62,13 +62,24 @@ final class AppModel: ObservableObject {
             let destination = DriveDestination(
                 accountEmail: user.profile?.email ?? googleAuth.accountEmail ?? ""
             )
+            let existingWatermark = layoutStore.hasUploadedExportFiles
+                ? watermarks.watermark
+                : nil
             let result = try await ExportPipeline.shared.sync(
                 destination: destination,
                 metrics: metricSelection.enabledMetrics,
-                existingWatermark: watermarks.watermark
+                existingWatermark: existingWatermark
             )
-            watermarks.advance(to: result.watermarkAfter)
+            let wroteRows = result.sampleRowsWritten + result.workoutRowsWritten > 0
+            let shouldAdvance = wroteRows || existingWatermark != nil
+            watermarks.recordCompletion(
+                advancingWatermarkTo: shouldAdvance ? result.watermarkAfter : nil
+            )
             lastResultMessage = result.summary
+            if !wroteRows, existingWatermark == nil {
+                lastErrorMessage =
+                    "No Health samples in the last 30 days. Grant Health access for Health Sync in Settings, or reset the watermark and try again."
+            }
         } catch {
             if !(error is ExportPipelineError), !(error is GoogleAuthError) {
                 SentrySDK.capture(error: error)
