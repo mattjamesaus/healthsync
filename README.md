@@ -53,6 +53,20 @@ Dates are ISO-8601 UTC.
 
 Siri phrases also work once the app is installed, e.g. “Sync health data with Health Sync”.
 
+## App icon
+
+The app uses two sync arrows forming a heart, with light, dark, and grayscale
+tinted appearances in `HealthSync/Assets.xcassets/AppIcon.appiconset`. The light
+icon is opaque; the dark icon has a transparent background for iOS to fill.
+
+The editable vector mark and separate arrow layers are in `design/app-icon`.
+The concept was generated with image generation and converted to SVG paths.
+To regenerate the PNG assets, install Pillow and CairoSVG (with the native Cairo
+library), then run `python3 scripts/render-app-icons.py`.
+
+These are asset-catalog icons. The SVG layers are also prepared for a future
+layered Liquid Glass icon in Icon Composer; a `.icon` file is not included yet.
+
 ## Regenerating the Xcode project
 
 This repo uses [XcodeGen](https://github.com/yonaskolb/XcodeGen):
