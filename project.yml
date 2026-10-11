@@ -6,9 +6,11 @@ options:
   createIntermediateGroups: true
   developmentLanguage: en
 packages:
+  # Pinned to the 9.30.1 commit. A version range fails on Xcode 16.4 because
+  # Package@swift-6.1.swift depends on KSCrash by revision.
   Sentry:
     url: https://github.com/getsentry/sentry-cocoa
-    from: 9.30.1
+    revision: 4f135c52afeeb1d6937eb93824c7ec1cddcaa372
 settings:
   base:
     SWIFT_VERSION: "5.0"
