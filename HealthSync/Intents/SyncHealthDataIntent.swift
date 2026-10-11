@@ -1,10 +1,11 @@
 import AppIntents
 import Foundation
+import Sentry
 
 struct SyncHealthDataIntent: AppIntent {
     static var title: LocalizedStringResource = "Sync Health Data"
     static var description = IntentDescription(
-        "Incrementally export HealthKit samples and workouts to your saved HealthSync folder."
+        "Incrementally export HealthKit samples and workouts to your saved Health Sync folder."
     )
     static var openAppWhenRun: Bool = false
 
@@ -27,6 +28,10 @@ struct SyncHealthDataIntent: AppIntent {
             return .result(value: result.summary)
         } catch {
             // Always surface failure to Shortcuts instead of hanging.
+            // Validation failures stay in the shortcut result; unexpected failures go to Sentry.
+            if !(error is ExportPipelineError) {
+                SentrySDK.capture(error: error)
+            }
             throw error
         }
     }

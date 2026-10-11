@@ -20,6 +20,7 @@
 		E87C825E3C8A52D46FDE94FA /* SyncManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287232C0A325A5C31705CAA /* SyncManifest.swift */; };
 		EE0D631AE18B534AF74FCA2F /* MetricSelectionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DD0088DC5B67D9C18E133 /* MetricSelectionStore.swift */; };
 		F6A5842A5B3B4BB08E91C4AF /* CSVWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBD30A9995F5453C87CC8B9 /* CSVWriter.swift */; };
+		C905EB3D26F8714A31CD56E2 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = B8F4DA2C15E7603920BC45D1 /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		DAFA7F14A31207ED589CADCA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1801DE3E590C7ED10392370 /* MetricCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCatalog.swift; sourceTree = "<group>"; };
 		EEBD30A9995F5453C87CC8B9 /* CSVWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVWriter.swift; sourceTree = "<group>"; };
+		FC381E60592BA47D640F8915 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -66,9 +68,18 @@
 			path = HealthSync;
 			sourceTree = "<group>";
 		};
+		0D492F716A3CB58E75109A26 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				FC381E60592BA47D640F8915 /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		28FBFFD0D3C692B467C9E997 = {
 			isa = PBXGroup;
 			children = (
+				0D492F716A3CB58E75109A26 /* Config */,
 				1618E30B30C691EB111703F1 /* HealthSync */,
 				04FE962AFCDCE2EB2C2661AA /* Products */,
 			);
@@ -136,7 +147,9 @@
 			buildConfigurationList = CD425CCA1BA42F6C69E6729D /* Build configuration list for PBXNativeTarget "HealthSync" */;
 			buildPhases = (
 				810254FFA098B3E2D484392A /* Sources */,
+				DA16FC4E3709825B42DE67F3 /* Frameworks */,
 				9AB4843F388D5127C037E3D8 /* Resources */,
+				EB270D5F481A936C53EF7804 /* Upload Debug Symbols */,
 			);
 			buildRules = (
 			);
@@ -144,6 +157,7 @@
 			);
 			name = HealthSync;
 			packageProductDependencies = (
+				B8F4DA2C15E7603920BC45D1 /* Sentry */,
 			);
 			productName = HealthSync;
 			productReference = 1D343810F4B4383E36DAE2F1 /* HealthSync.app */;
@@ -174,6 +188,9 @@
 			mainGroup = 28FBFFD0D3C692B467C9E997;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			packageReferences = (
+				A7E3C91B04D65F2819AB34C0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+			);
 			productRefGroup = 04FE962AFCDCE2EB2C2661AA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -182,6 +199,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA16FC4E3709825B42DE67F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C905EB3D26F8714A31CD56E2 /* Sentry in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9AB4843F388D5127C037E3D8 /* Resources */ = {
@@ -193,6 +221,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EB270D5F481A936C53EF7804 /* Upload Debug Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${EXECUTABLE_NAME}",
+			);
+			name = "Upload Debug Symbols";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$(uname -m)\" = \"arm64\" ]; then\n  export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif [ -z \"${SENTRY_AUTH_TOKEN:-}\" ]; then\n  echo \"warning: SENTRY_AUTH_TOKEN is not set; skipping dSYM upload. Add it to Config/SentryAuth.local.xcconfig or the build environment.\"\n  exit 0\nfi\n\nif ! command -v sentry-cli >/dev/null 2>&1; then\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\n  exit 0\nfi\n\nexport SENTRY_ORG=\"${SENTRY_ORG:-null-pointer-group}\"\nexport SENTRY_PROJECT=\"${SENTRY_PROJECT:-health-sync}\"\n\nif ! ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1); then\n  echo \"warning: sentry-cli - $ERROR\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		810254FFA098B3E2D484392A /* Sources */ = {
@@ -219,8 +266,11 @@
 /* Begin XCBuildConfiguration section */
 		5E7BEC9CDF6A3187C96D8D09 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC381E60592BA47D640F8915 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_ENTITLEMENTS = HealthSync/HealthSync.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -306,8 +356,11 @@
 		};
 		917D6698AB977A73A9885894 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC381E60592BA47D640F8915 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_ENTITLEMENTS = HealthSync/HealthSync.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -406,6 +459,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A7E3C91B04D65F2819AB34C0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
+			requirement = {
+				kind = revision;
+				revision = 4f135c52afeeb1d6937eb93824c7ec1cddcaa372;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B8F4DA2C15E7603920BC45D1 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7E3C91B04D65F2819AB34C0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F4549D80C7EEB3189A9CF84C /* Project object */;
 }
