@@ -1,0 +1,58 @@
+name: HealthSync
+options:
+  bundleIdPrefix: com.mattjamesaus
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "1.0.0"
+targets:
+  HealthSync:
+    type: application
+    platform: iOS
+    sources:
+      - path: HealthSync
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mattjamesaus.HealthSyncApp
+        INFOPLIST_FILE: HealthSync/Info.plist
+        CODE_SIGN_ENTITLEMENTS: HealthSync/HealthSync.entitlements
+        GENERATE_INFOPLIST_FILE: false
+        DEVELOPMENT_TEAM: QRJV5T3359
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: false
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+    entitlements:
+      path: HealthSync/HealthSync.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
+    info:
+      path: HealthSync/Info.plist
+      properties:
+        CFBundleDisplayName: HealthSync
+        CFBundleName: HealthSync
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIRequiresFullScreen: false
+        NSHealthShareUsageDescription: HealthSync reads your Health data so it can export workouts, activity, heart, sleep, and related metrics to a folder you choose for your own tools and agents.
+        NSHealthUpdateUsageDescription: HealthSync does not write health data; this permission is unused.
