@@ -1,3 +1,4 @@
+import GoogleSignIn
 import Sentry
 import SwiftUI
 
@@ -6,6 +7,7 @@ struct HealthSyncApp: App {
     @StateObject private var appModel = AppModel()
 
     init() {
+        GoogleAuth.configure()
         Self.startSentry()
     }
 
@@ -13,6 +15,9 @@ struct HealthSyncApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(appModel)
+                .onOpenURL { url in
+                    GIDSignIn.sharedInstance.handle(url)
+                }
         }
     }
 
@@ -32,11 +37,26 @@ struct HealthSyncApp: App {
             options.environment = "production"
             #endif
             options.tracesSampleRate = 1.0
+            options.sendDefaultPii = false
 
             let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
             let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "0"
             if let bundleId = Bundle.main.bundleIdentifier {
                 options.releaseName = "\(bundleId)@\(version)+\(build)"
+            }
+
+            options.beforeSend = { event in
+                event.request?.headers?.removeValue(forKey: "Authorization")
+                event.request?.headers?.removeValue(forKey: "authorization")
+                event.request?.cookies = nil
+                return event
+            }
+            options.beforeBreadcrumb = { crumb in
+                crumb.data?.removeValue(forKey: "Authorization")
+                crumb.data?.removeValue(forKey: "authorization")
+                crumb.data?.removeValue(forKey: "request_body")
+                crumb.data?.removeValue(forKey: "response_body")
+                return crumb
             }
         }
     }

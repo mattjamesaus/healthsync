@@ -11,6 +11,10 @@ packages:
   Sentry:
     url: https://github.com/getsentry/sentry-cocoa
     revision: 4f135c52afeeb1d6937eb93824c7ec1cddcaa372
+  # Stay on 9.x. 10.0.0 needs Xcode 27 / AppAuth 3.
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    exactVersion: 9.2.0
 settings:
   base:
     SWIFT_VERSION: "5.0"
@@ -26,6 +30,8 @@ targets:
     dependencies:
       - package: Sentry
         product: Sentry
+      - package: GoogleSignIn
+        product: GoogleSignIn
     configFiles:
       Debug: Config/Secrets.xcconfig
       Release: Config/Secrets.xcconfig
@@ -64,6 +70,11 @@ targets:
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         SentryDSN: "$(SENTRY_DSN)"
+        GIDClientID: "$(GID_CLIENT_ID)"
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Editor
+            CFBundleURLSchemes:
+              - "$(GID_REVERSED_CLIENT_ID)"
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
@@ -75,5 +86,5 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UIRequiresFullScreen: false
-        NSHealthShareUsageDescription: Health Sync reads your Health data so it can export workouts, activity, heart, sleep, and related metrics to a folder you choose for your own tools and agents.
+        NSHealthShareUsageDescription: Health Sync reads your Health data to export CSV into your own Google Drive.
         NSHealthUpdateUsageDescription: Health Sync does not write health data; this permission is unused.

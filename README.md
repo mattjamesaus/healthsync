@@ -1,20 +1,20 @@
 # Health Sync
 
-Personal iOS/iPadOS app that incrementally exports Apple Health data (workouts, activity, heart, sleep, and more) as CSV into a folder you choose in the Files app — iCloud Drive or Google Drive — so your agents and tools can read it on a schedule.
+Personal iOS/iPadOS app that incrementally exports Apple Health data (workouts, activity, heart, sleep, and more) as CSV into a HealthSync folder in the user’s own Google Drive, so agents and tools can read it on a schedule.
 
-Rebuilt for remembered destinations, incremental watermarks, and Shortcuts automation.
+The app signs into Google and uploads with the Drive REST API. It does not use the Files app Google Drive provider.
 
 ## Features
 
 - **Incremental sync** — remembers a watermark; each run exports only new samples (with a short overlap + UUID dedupe)
 - **CSV output** — dense, agent-friendly; tiny JSON manifests per sync for metadata only
-- **Remembered folder** — security-scoped bookmark to iCloud Drive or Google Drive via Files
+- **Google Drive** — Google Sign-In plus `drive.file`; creates `My Drive/HealthSync`
 - **Shortcuts** — `Sync Health Data` App Intent for daily automations
 - **iPhone + iPad** — useful on a desk iPad that stays plugged in
 
 ## Output layout
 
-Inside your chosen folder:
+Inside `My Drive/HealthSync`:
 
 ```text
 samples/YYYY-MM.csv
@@ -32,17 +32,21 @@ Dates are ISO-8601 UTC.
 
 ## Setup (local device)
 
-1. Open the project:
+1. Create a Google Cloud project, enable **Google Drive API**, and finish the OAuth consent screen with only `https://www.googleapis.com/auth/drive.file`.
+2. Create an **iOS** OAuth client with bundle ID `com.mattjamesaus.HealthSyncApp` and Team ID `QRJV5T3359`.
+3. Copy the client ID and reversed client ID into gitignored `Config/Google.local.xcconfig` (see `Config/Google.local.xcconfig.example`).
+4. Open the project:
    ```bash
    cd /path/to/HealthSync
    xcodegen generate   # if the .xcodeproj is missing
    open HealthSync.xcodeproj
    ```
-2. In Xcode → Signing & Capabilities: select your **Team**, keep HealthKit enabled.
-3. Run on a physical **iPhone or iPad** (HealthKit is limited in Simulator).
-4. Grant Health read access for the metrics you enable.
-5. Tap **Choose folder…** and pick e.g. `iCloud Drive/Health Sync` or `Google Drive/Health Sync`.
-6. Tap **Sync Now** (first run backfills ~30 days).
+5. In Xcode → Signing & Capabilities: select your **Team**, keep HealthKit enabled.
+6. Run on a physical **iPhone or iPad** (HealthKit is limited in Simulator).
+7. Grant Health read access for the metrics you enable.
+8. Tap **Connect Google Drive**, then **Sync Now** (first run backfills ~30 days).
+
+Publish the OAuth consent screen to production before relying on daily Shortcuts. In Testing, refresh tokens for this scope expire after seven days.
 
 ## Daily Shortcut automation
 
@@ -52,6 +56,8 @@ Dates are ISO-8601 UTC.
 4. Turn off “Ask Before Running” if you want it unattended (iPadOS/iOS may still prompt depending on settings).
 
 Siri phrases also work once the app is installed, e.g. “Sync health data with Health Sync”.
+
+Shortcuts still cannot sync while the device is locked. HealthKit will not return samples, and the Keychain item may be unavailable before first unlock after boot.
 
 ## App icon
 
@@ -79,10 +85,15 @@ open HealthSync.xcodeproj
 
 ## Notes
 
-- True silent background export without Shortcuts is unreliable for HealthKit + Files; daily Shortcuts is the intended cadence.
+- True silent background export without Shortcuts is unreliable for HealthKit; daily Shortcuts is the intended cadence.
 - Read-only HealthKit: the app requests access then queries (it does not treat `authorizationStatus` as a hard gate).
-- Reset the watermark in the app if you need another 30-day backfill.
+- Reset the watermark in the app if you need another 30-day backfill. That does not delete Drive files.
+- Disconnect revokes the Google grant and clears the local file-id cache. It does not delete the Drive folder.
+
+## Privacy
+
+See [docs/privacy.html](docs/privacy.html). Health data stays on device until you connect Google. The app then writes CSV into that user’s Drive. The developer’s servers do not receive it.
 
 ## Error reporting
 
-Sync failures and crashes are sent to Sentry. The client DSN lives in `Config/Secrets.xcconfig`. The Upload Debug Symbols build phase sends dSYMs when `SENTRY_AUTH_TOKEN` is set in the build environment or in gitignored `Config/SentryAuth.local.xcconfig` (see the example next to it).
+Sync failures and crashes are sent to Sentry. The client DSN lives in `Config/Secrets.xcconfig`. The Upload Debug Symbols build phase sends dSYMs when `SENTRY_AUTH_TOKEN` is set in the build environment or in gitignored `Config/SentryAuth.local.xcconfig` (see the example next to it). Authorization headers, tokens, CSV bodies, and Health samples are not attached.

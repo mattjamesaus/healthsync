@@ -5,9 +5,10 @@ import SwiftUI
 
 @MainActor
 final class AppModel: ObservableObject {
-    let bookmarks = BookmarkStore()
+    let googleAuth = GoogleAuthStore()
     let watermarks = WatermarkStore()
     let metricSelection = MetricSelectionStore()
+    let layoutStore = DriveLayoutStore.shared
 
     @Published var isSyncing = false
     @Published var lastResultMessage: String?
@@ -16,7 +17,7 @@ final class AppModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        bookmarks.objectWillChange
+        googleAuth.objectWillChange
             .sink { [weak self] _ in self?.objectWillChange.send() }
             .store(in: &cancellables)
         watermarks.objectWillChange
@@ -27,6 +28,29 @@ final class AppModel: ObservableObject {
             .store(in: &cancellables)
     }
 
+    func restoreGoogleSession() async {
+        await googleAuth.restore()
+    }
+
+    func connectGoogle() async {
+        lastErrorMessage = nil
+        do {
+            try await googleAuth.connect()
+        } catch {
+            lastErrorMessage = error.localizedDescription
+        }
+    }
+
+    func disconnectGoogle() async {
+        lastErrorMessage = nil
+        do {
+            try await googleAuth.disconnect()
+            layoutStore.clear()
+        } catch {
+            lastErrorMessage = error.localizedDescription
+        }
+    }
+
     func sync() async {
         guard !isSyncing else { return }
         isSyncing = true
@@ -34,18 +58,19 @@ final class AppModel: ObservableObject {
         defer { isSyncing = false }
 
         do {
-            let resolved = try bookmarks.resolveAccessibleURL()
-            defer { resolved.stopAccessing() }
-
+            let user = try await GoogleAuth.restoreSession()
+            let destination = DriveDestination(
+                accountEmail: user.profile?.email ?? googleAuth.accountEmail ?? ""
+            )
             let result = try await ExportPipeline.shared.sync(
-                destination: resolved.url,
+                destination: destination,
                 metrics: metricSelection.enabledMetrics,
                 existingWatermark: watermarks.watermark
             )
             watermarks.advance(to: result.watermarkAfter)
             lastResultMessage = result.summary
         } catch {
-            if !(error is ExportPipelineError) {
+            if !(error is ExportPipelineError), !(error is GoogleAuthError) {
                 SentrySDK.capture(error: error)
             }
             lastErrorMessage = error.localizedDescription

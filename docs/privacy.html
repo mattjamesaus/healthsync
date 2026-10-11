@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Health Sync Privacy Policy</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1.25rem; line-height: 1.55; color: #1a1a1a; }
+    h1, h2 { line-height: 1.25; }
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.2rem; margin-top: 1.75rem; }
+  </style>
+</head>
+<body>
+  <h1>Health Sync Privacy Policy</h1>
+  <p>Last updated: 11 October 2026</p>
+  <p>Health Sync is a personal iOS and iPadOS app that reads Apple Health data on the device and, after you connect a Google account, writes CSV exports into that account’s Google Drive.</p>
+
+  <h2>What the app collects</h2>
+  <p>Health Sync reads HealthKit samples you enable, such as workouts, activity, heart, and sleep. It also receives your Google account email, name, and user ID from Google Sign-In so the app can show which account is connected.</p>
+
+  <h2>Where data goes</h2>
+  <p>Health data stays on your device until you tap Connect Google Drive and complete Google’s consent screen. The app then writes monthly CSV files and a small JSON manifest into a HealthSync folder in your own My Drive. The developer’s servers do not receive health samples, CSV bodies, or Google tokens.</p>
+
+  <h2>Google Drive access</h2>
+  <p>The app requests only the <code>drive.file</code> scope. It can create the HealthSync folder and the files it writes there. It cannot list the rest of your Drive.</p>
+
+  <h2>Disconnect and deletion</h2>
+  <p>Disconnect revokes the Google grant and clears the local folder and file IDs. Deleting the app does not delete files already in Google Drive. Resetting the watermark only clears local dates; it does not delete Drive files.</p>
+
+  <h2>Analytics and tracking</h2>
+  <p>Health Sync does not use health data for advertising, marketing, or data mining. Crash reports, if enabled, are scrubbed so they do not include Authorization headers, tokens, CSV bodies, or Health samples. The app does not track you across apps or websites.</p>
+
+  <h2>Contact</h2>
+  <p>Questions: <a href="mailto:me@matthewjames.dev">me@matthewjames.dev</a></p>
+</body>
+</html>

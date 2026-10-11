@@ -13,21 +13,12 @@ struct SyncManifest: Codable, Sendable {
 }
 
 enum SyncManifestWriter {
-    static func write(
-        _ manifest: SyncManifest,
-        to directory: URL
-    ) throws -> URL {
-        try FileManager.default.createDirectory(
-            at: directory,
-            withIntermediateDirectories: true
-        )
+    static func encode(_ manifest: SyncManifest) throws -> (fileName: String, data: Data) {
         let stamp = manifest.syncedAt
             .replacingOccurrences(of: ":", with: "")
-        let fileURL = directory.appendingPathComponent("sync_\(stamp).json")
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         let data = try encoder.encode(manifest)
-        try data.write(to: fileURL, options: .atomic)
-        return fileURL
+        return ("sync_\(stamp).json", data)
     }
 }

@@ -20,8 +20,21 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(GID_REVERSED_CLIENT_ID)</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>$(GID_CLIENT_ID)</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Health Sync reads your Health data so it can export workouts, activity, heart, sleep, and related metrics to a folder you choose for your own tools and agents.</string>
+	<string>Health Sync reads your Health data to export CSV into your own Google Drive.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Health Sync does not write health data; this permission is unused.</string>
 	<key>SentryDSN</key>

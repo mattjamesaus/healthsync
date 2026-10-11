@@ -27,7 +27,7 @@ enum ExportPipelineError: LocalizedError {
     }
 }
 
-/// Orchestrates incremental HealthKit → CSV export into a bookmarked folder.
+/// Orchestrates incremental HealthKit → CSV export into a destination.
 final class ExportPipeline: @unchecked Sendable {
     static let shared = ExportPipeline()
 
@@ -40,7 +40,7 @@ final class ExportPipeline: @unchecked Sendable {
     }
 
     func sync(
-        destination: URL,
+        destination: SyncDestination,
         metrics: [MetricDefinition],
         existingWatermark: Date?
     ) async throws -> SyncResult {
@@ -93,32 +93,40 @@ final class ExportPipeline: @unchecked Sendable {
             }
         }
 
-        let samplesDir = destination.appendingPathComponent("samples", isDirectory: true)
-        let workoutsDir = destination.appendingPathComponent("workouts", isDirectory: true)
-        let manifestsDir = destination.appendingPathComponent("manifests", isDirectory: true)
-
         var samplesWritten = 0
         let samplesByMonth = Dictionary(grouping: allSamples) { MonthKey.from($0.start) }
         for (month, rows) in samplesByMonth {
-            samplesWritten += try CSVWriter.appendSamples(
-                rows,
-                to: samplesDir,
-                monthKey: month
-            )
+            let path = "samples/\(month).csv"
+            let existing = try await destination.read(relativePath: path)
+            let merged = CSVWriter.mergeSamples(rows, existing: existing)
+            if merged.added > 0 {
+                try await destination.write(
+                    relativePath: path,
+                    data: merged.data,
+                    mimeType: "text/csv"
+                )
+            }
+            samplesWritten += merged.added
         }
 
         var workoutsWritten = 0
         let workoutsByMonth = Dictionary(grouping: allWorkouts) { MonthKey.from($0.start) }
         for (month, rows) in workoutsByMonth {
-            workoutsWritten += try CSVWriter.appendWorkouts(
-                rows,
-                to: workoutsDir,
-                monthKey: month
-            )
+            let path = "workouts/\(month).csv"
+            let existing = try await destination.read(relativePath: path)
+            let merged = CSVWriter.mergeWorkouts(rows, existing: existing)
+            if merged.added > 0 {
+                try await destination.write(
+                    relativePath: path,
+                    data: merged.data,
+                    mimeType: "text/csv"
+                )
+            }
+            workoutsWritten += merged.added
         }
 
         let watermarkAfter = windowEnd
-        let destinationName = destination.lastPathComponent
+        let destinationName = destination.displayName
 
         let manifest = SyncManifest(
             syncedAt: CSVWriter.iso8601(Date()),
@@ -133,7 +141,12 @@ final class ExportPipeline: @unchecked Sendable {
                 ? "Initial backfill (\(defaultBackfillDays) days)."
                 : nil
         )
-        _ = try SyncManifestWriter.write(manifest, to: manifestsDir)
+        let encoded = try SyncManifestWriter.encode(manifest)
+        try await destination.write(
+            relativePath: "manifests/\(encoded.fileName)",
+            data: encoded.data,
+            mimeType: "application/json"
+        )
 
         return SyncResult(
             sampleRowsWritten: samplesWritten,

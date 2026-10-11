@@ -7,20 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02E7BCFB9099B6E1E2C37F42 /* DriveLayoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186A63F10206C5736630B20 /* DriveLayoutStore.swift */; };
 		059E3DA64222B4A6D81E6A5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47EA5347F40B7B95F85D71F /* ContentView.swift */; };
 		09CCF9BC8B694BA8EEEC746F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB6722F237AF9F1A775A23F /* AppModel.swift */; };
+		1CFB8CEF9029AB9AF4D7E44F /* DriveClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B239C0222CCA2CB7E96E90A5 /* DriveClient.swift */; };
 		203A7745D74BA8F348BE026E /* WatermarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737BBCA816599A4B5C3E629A /* WatermarkStore.swift */; };
 		22FACA3967132E0B6BA3E8F8 /* MetricCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1801DE3E590C7ED10392370 /* MetricCatalog.swift */; };
+		5B1E40F92F2F57A4C24A3653 /* DriveDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6422E64551C9D35384967901 /* DriveDestination.swift */; };
 		5D6A78F06D0A187C17ECF9EE /* SyncHealthDataIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EC65A69D11A36000824567 /* SyncHealthDataIntent.swift */; };
 		60E0E55B476C891293367148 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAFA7F14A31207ED589CADCA /* Assets.xcassets */; };
 		64B203D1973CC9B72FC01545 /* HealthSyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D370141F468BA00615662572 /* HealthSyncApp.swift */; };
+		692FCBB2D361BA506A8D837B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = E8ADFED029E6FDF727B37D96 /* GoogleSignIn */; };
 		72A2D1FAD8C38F488C82394F /* HealthKitClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF91C236F469AA7F26E05B2 /* HealthKitClient.swift */; };
+		99B2F9F7962B64C482C93F71 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 352504D0A3550AB9C08D24F4 /* Sentry */; };
+		A22B17DFE98089EFF23BC86B /* GoogleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAAB126D3B3916E0D47257 /* GoogleAuth.swift */; };
 		A391872FEFFBA45E29065D43 /* ExportPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4613AE0766529BBC59851496 /* ExportPipeline.swift */; };
+		ABF03D7DB090317C4921FF30 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8A1412307DF89A311864E653 /* PrivacyInfo.xcprivacy */; };
+		C063DF3A9944A0311CB4F7B8 /* SyncDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F4D81DA52B96617D7E0744 /* SyncDestination.swift */; };
 		D6E6F3FEE39711485E7256FB /* BookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B544307D9C84C1CB53F3DB /* BookmarkStore.swift */; };
 		E87C825E3C8A52D46FDE94FA /* SyncManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287232C0A325A5C31705CAA /* SyncManifest.swift */; };
 		EE0D631AE18B534AF74FCA2F /* MetricSelectionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DD0088DC5B67D9C18E133 /* MetricSelectionStore.swift */; };
 		F6A5842A5B3B4BB08E91C4AF /* CSVWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBD30A9995F5453C87CC8B9 /* CSVWriter.swift */; };
-		C905EB3D26F8714A31CD56E2 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = B8F4DA2C15E7603920BC45D1 /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,11 +35,17 @@
 		1FF91C236F469AA7F26E05B2 /* HealthKitClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitClient.swift; sourceTree = "<group>"; };
 		389DD0088DC5B67D9C18E133 /* MetricSelectionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricSelectionStore.swift; sourceTree = "<group>"; };
 		4613AE0766529BBC59851496 /* ExportPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportPipeline.swift; sourceTree = "<group>"; };
+		52F4D81DA52B96617D7E0744 /* SyncDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDestination.swift; sourceTree = "<group>"; };
 		6287232C0A325A5C31705CAA /* SyncManifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManifest.swift; sourceTree = "<group>"; };
+		6422E64551C9D35384967901 /* DriveDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveDestination.swift; sourceTree = "<group>"; };
+		7186A63F10206C5736630B20 /* DriveLayoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveLayoutStore.swift; sourceTree = "<group>"; };
 		737BBCA816599A4B5C3E629A /* WatermarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatermarkStore.swift; sourceTree = "<group>"; };
 		77DC9E8F7853D4644F9B4F0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8A1412307DF89A311864E653 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		96BAAB126D3B3916E0D47257 /* GoogleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuth.swift; sourceTree = "<group>"; };
 		9752879CB62273AC0A635364 /* HealthSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HealthSync.entitlements; sourceTree = "<group>"; };
 		A47EA5347F40B7B95F85D71F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B239C0222CCA2CB7E96E90A5 /* DriveClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveClient.swift; sourceTree = "<group>"; };
 		BFB6722F237AF9F1A775A23F /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		D370141F468BA00615662572 /* HealthSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSyncApp.swift; sourceTree = "<group>"; };
 		D4EC65A69D11A36000824567 /* SyncHealthDataIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHealthDataIntent.swift; sourceTree = "<group>"; };
@@ -40,8 +53,20 @@
 		DAFA7F14A31207ED589CADCA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1801DE3E590C7ED10392370 /* MetricCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCatalog.swift; sourceTree = "<group>"; };
 		EEBD30A9995F5453C87CC8B9 /* CSVWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVWriter.swift; sourceTree = "<group>"; };
-		FC381E60592BA47D640F8915 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		F663B7D1CE1B3376F8491D07 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E4452009DBDFBC8610956900 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99B2F9F7962B64C482C93F71 /* Sentry in Frameworks */,
+				692FCBB2D361BA506A8D837B /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		04FE962AFCDCE2EB2C2661AA /* Products */ = {
@@ -58,7 +83,9 @@
 				DAFA7F14A31207ED589CADCA /* Assets.xcassets */,
 				9752879CB62273AC0A635364 /* HealthSync.entitlements */,
 				77DC9E8F7853D4644F9B4F0E /* Info.plist */,
+				8A1412307DF89A311864E653 /* PrivacyInfo.xcprivacy */,
 				E80CD02E5E6AD0214174226C /* App */,
+				2C3D5F92D43572EB696107E5 /* Drive */,
 				59BA8007F65CE6883566FB6E /* Export */,
 				C05D84CA4FB45B4416C46513 /* HealthKit */,
 				C53AD14BF77ADF3EBCC39917 /* Intents */,
@@ -68,21 +95,24 @@
 			path = HealthSync;
 			sourceTree = "<group>";
 		};
-		0D492F716A3CB58E75109A26 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				FC381E60592BA47D640F8915 /* Secrets.xcconfig */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
 		28FBFFD0D3C692B467C9E997 = {
 			isa = PBXGroup;
 			children = (
-				0D492F716A3CB58E75109A26 /* Config */,
+				F0B6FE205772ACFD89B3499D /* Config */,
 				1618E30B30C691EB111703F1 /* HealthSync */,
 				04FE962AFCDCE2EB2C2661AA /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		2C3D5F92D43572EB696107E5 /* Drive */ = {
+			isa = PBXGroup;
+			children = (
+				B239C0222CCA2CB7E96E90A5 /* DriveClient.swift */,
+				6422E64551C9D35384967901 /* DriveDestination.swift */,
+				7186A63F10206C5736630B20 /* DriveLayoutStore.swift */,
+				96BAAB126D3B3916E0D47257 /* GoogleAuth.swift */,
+			);
+			path = Drive;
 			sourceTree = "<group>";
 		};
 		59BA8007F65CE6883566FB6E /* Export */ = {
@@ -90,6 +120,7 @@
 			children = (
 				EEBD30A9995F5453C87CC8B9 /* CSVWriter.swift */,
 				4613AE0766529BBC59851496 /* ExportPipeline.swift */,
+				52F4D81DA52B96617D7E0744 /* SyncDestination.swift */,
 				6287232C0A325A5C31705CAA /* SyncManifest.swift */,
 			);
 			path = Export;
@@ -139,6 +170,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		F0B6FE205772ACFD89B3499D /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				F663B7D1CE1B3376F8491D07 /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,9 +186,9 @@
 			buildConfigurationList = CD425CCA1BA42F6C69E6729D /* Build configuration list for PBXNativeTarget "HealthSync" */;
 			buildPhases = (
 				810254FFA098B3E2D484392A /* Sources */,
-				DA16FC4E3709825B42DE67F3 /* Frameworks */,
 				9AB4843F388D5127C037E3D8 /* Resources */,
-				EB270D5F481A936C53EF7804 /* Upload Debug Symbols */,
+				E4452009DBDFBC8610956900 /* Frameworks */,
+				569AF79021DFF873C36A841B /* Upload Debug Symbols */,
 			);
 			buildRules = (
 			);
@@ -157,7 +196,8 @@
 			);
 			name = HealthSync;
 			packageProductDependencies = (
-				B8F4DA2C15E7603920BC45D1 /* Sentry */,
+				352504D0A3550AB9C08D24F4 /* Sentry */,
+				E8ADFED029E6FDF727B37D96 /* GoogleSignIn */,
 			);
 			productName = HealthSync;
 			productReference = 1D343810F4B4383E36DAE2F1 /* HealthSync.app */;
@@ -187,10 +227,11 @@
 			);
 			mainGroup = 28FBFFD0D3C692B467C9E997;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			packageReferences = (
-				A7E3C91B04D65F2819AB34C0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				ADC5DD9887EAC1414EC0DB63 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				71309AC45E2867B9A96483EE /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 04FE962AFCDCE2EB2C2661AA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -200,44 +241,38 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		DA16FC4E3709825B42DE67F3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C905EB3D26F8714A31CD56E2 /* Sentry in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXResourcesBuildPhase section */
 		9AB4843F388D5127C037E3D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				60E0E55B476C891293367148 /* Assets.xcassets in Resources */,
+				ABF03D7DB090317C4921FF30 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EB270D5F481A936C53EF7804 /* Upload Debug Symbols */ = {
+		569AF79021DFF873C36A841B /* Upload Debug Symbols */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${EXECUTABLE_NAME}",
 			);
 			name = "Upload Debug Symbols";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$(uname -m)\" = \"arm64\" ]; then\n  export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif [ -z \"${SENTRY_AUTH_TOKEN:-}\" ]; then\n  echo \"warning: SENTRY_AUTH_TOKEN is not set; skipping dSYM upload. Add it to Config/SentryAuth.local.xcconfig or the build environment.\"\n  exit 0\nfi\n\nif ! command -v sentry-cli >/dev/null 2>&1; then\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\n  exit 0\nfi\n\nexport SENTRY_ORG=\"${SENTRY_ORG:-null-pointer-group}\"\nexport SENTRY_PROJECT=\"${SENTRY_PROJECT:-health-sync}\"\n\nif ! ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1); then\n  echo \"warning: sentry-cli - $ERROR\"\nfi\n";
+			shellScript = "#!/bin/sh\n# Uploads the archive's dSYMs so Sentry can symbolicate native crashes.\n# SENTRY_AUTH_TOKEN is not stored in git. Set it in the build environment or in\n# Config/SentryAuth.local.xcconfig (gitignored). Org and project come from\n# Config/Secrets.xcconfig.\n\nif [ \"$(uname -m)\" = \"arm64\" ]; then\n  export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif [ -z \"${SENTRY_AUTH_TOKEN:-}\" ]; then\n  echo \"warning: SENTRY_AUTH_TOKEN is not set; skipping dSYM upload. Add it to Config/SentryAuth.local.xcconfig or the build environment.\"\n  exit 0\nfi\n\nif ! command -v sentry-cli >/dev/null 2>&1; then\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\n  exit 0\nfi\n\nexport SENTRY_ORG=\"${SENTRY_ORG:-null-pointer-group}\"\nexport SENTRY_PROJECT=\"${SENTRY_PROJECT:-health-sync}\"\n\nif ! ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1); then\n  echo \"warning: sentry-cli - $ERROR\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -250,11 +285,16 @@
 				D6E6F3FEE39711485E7256FB /* BookmarkStore.swift in Sources */,
 				F6A5842A5B3B4BB08E91C4AF /* CSVWriter.swift in Sources */,
 				059E3DA64222B4A6D81E6A5B /* ContentView.swift in Sources */,
+				1CFB8CEF9029AB9AF4D7E44F /* DriveClient.swift in Sources */,
+				5B1E40F92F2F57A4C24A3653 /* DriveDestination.swift in Sources */,
+				02E7BCFB9099B6E1E2C37F42 /* DriveLayoutStore.swift in Sources */,
 				A391872FEFFBA45E29065D43 /* ExportPipeline.swift in Sources */,
+				A22B17DFE98089EFF23BC86B /* GoogleAuth.swift in Sources */,
 				72A2D1FAD8C38F488C82394F /* HealthKitClient.swift in Sources */,
 				64B203D1973CC9B72FC01545 /* HealthSyncApp.swift in Sources */,
 				22FACA3967132E0B6BA3E8F8 /* MetricCatalog.swift in Sources */,
 				EE0D631AE18B534AF74FCA2F /* MetricSelectionStore.swift in Sources */,
+				C063DF3A9944A0311CB4F7B8 /* SyncDestination.swift in Sources */,
 				5D6A78F06D0A187C17ECF9EE /* SyncHealthDataIntent.swift in Sources */,
 				E87C825E3C8A52D46FDE94FA /* SyncManifest.swift in Sources */,
 				203A7745D74BA8F348BE026E /* WatermarkStore.swift in Sources */,
@@ -266,15 +306,15 @@
 /* Begin XCBuildConfiguration section */
 		5E7BEC9CDF6A3187C96D8D09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC381E60592BA47D640F8915 /* Secrets.xcconfig */;
+			baseConfigurationReference = F663B7D1CE1B3376F8491D07 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_ENTITLEMENTS = HealthSync/HealthSync.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QRJV5T3359;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HealthSync/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -356,15 +396,15 @@
 		};
 		917D6698AB977A73A9885894 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC381E60592BA47D640F8915 /* Secrets.xcconfig */;
+			baseConfigurationReference = F663B7D1CE1B3376F8491D07 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_ENTITLEMENTS = HealthSync/HealthSync.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QRJV5T3359;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HealthSync/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -461,7 +501,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A7E3C91B04D65F2819AB34C0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+		71309AC45E2867B9A96483EE /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
 			requirement = {
@@ -469,13 +509,26 @@
 				revision = 4f135c52afeeb1d6937eb93824c7ec1cddcaa372;
 			};
 		};
+		ADC5DD9887EAC1414EC0DB63 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 9.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B8F4DA2C15E7603920BC45D1 /* Sentry */ = {
+		352504D0A3550AB9C08D24F4 /* Sentry */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A7E3C91B04D65F2819AB34C0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			package = 71309AC45E2867B9A96483EE /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
+		};
+		E8ADFED029E6FDF727B37D96 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ADC5DD9887EAC1414EC0DB63 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

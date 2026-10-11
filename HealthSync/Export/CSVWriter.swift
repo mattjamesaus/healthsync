@@ -49,77 +49,62 @@ enum CSVWriter {
         .joined(separator: ",")
     }
 
-    /// Appends rows to a monthly CSV, creating the file with a header if needed.
-    /// Skips UUIDs already present in the file.
-    @discardableResult
-    static func appendSamples(
-        _ rows: [SampleRow],
-        to directory: URL,
-        monthKey: String
-    ) throws -> Int {
-        try FileManager.default.createDirectory(
-            at: directory,
-            withIntermediateDirectories: true
+    /// Merges rows into a monthly CSV. Skips UUIDs already present.
+    /// UUID column indexes stay 6 for samples and 7 for workouts.
+    static func mergeSamples(_ rows: [SampleRow], existing: Data?) -> (data: Data, added: Int) {
+        merge(
+            lines: rows.map { ($0.uuid, sampleLine($0)) },
+            existing: existing,
+            header: sampleHeader,
+            uuidColumnIndex: 6
         )
-        let fileURL = directory.appendingPathComponent("\(monthKey).csv")
-        let existing = try existingUUIDs(in: fileURL, uuidColumnIndex: 6)
-        let newRows = rows.filter { !existing.contains($0.uuid) }
-        guard !newRows.isEmpty else { return 0 }
-
-        let lines = newRows.map(sampleLine)
-        try append(lines: lines, header: sampleHeader, to: fileURL)
-        return newRows.count
     }
 
-    @discardableResult
-    static func appendWorkouts(
-        _ rows: [WorkoutRow],
-        to directory: URL,
-        monthKey: String
-    ) throws -> Int {
-        try FileManager.default.createDirectory(
-            at: directory,
-            withIntermediateDirectories: true
+    static func mergeWorkouts(_ rows: [WorkoutRow], existing: Data?) -> (data: Data, added: Int) {
+        merge(
+            lines: rows.map { ($0.uuid, workoutLine($0)) },
+            existing: existing,
+            header: workoutHeader,
+            uuidColumnIndex: 7
         )
-        let fileURL = directory.appendingPathComponent("\(monthKey).csv")
-        let existing = try existingUUIDs(in: fileURL, uuidColumnIndex: 7)
-        let newRows = rows.filter { !existing.contains($0.uuid) }
-        guard !newRows.isEmpty else { return 0 }
-
-        let lines = newRows.map(workoutLine)
-        try append(lines: lines, header: workoutHeader, to: fileURL)
-        return newRows.count
     }
 
-    private static func append(lines: [String], header: String, to fileURL: URL) throws {
-        if !FileManager.default.fileExists(atPath: fileURL.path) {
-            let content = ([header] + lines).joined(separator: "\n") + "\n"
-            try content.write(to: fileURL, atomically: true, encoding: .utf8)
-            return
+    private static func merge(
+        lines: [(uuid: String, line: String)],
+        existing: Data?,
+        header: String,
+        uuidColumnIndex: Int
+    ) -> (data: Data, added: Int) {
+        let existingText = existing.flatMap { String(data: $0, encoding: .utf8) }
+        let known = uuids(in: existingText, uuidColumnIndex: uuidColumnIndex)
+        let newLines = lines.compactMap { known.contains($0.uuid) ? nil : $0.line }
+        guard !newLines.isEmpty else {
+            return (existing ?? Data(), 0)
         }
 
-        let handle = try FileHandle(forWritingTo: fileURL)
-        defer { try? handle.close() }
-        try handle.seekToEnd()
-        let payload = lines.joined(separator: "\n") + "\n"
-        if let data = payload.data(using: .utf8) {
-            try handle.write(contentsOf: data)
+        let content: String
+        if let existingText, !existingText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            var base = existingText
+            if !base.hasSuffix("\n") {
+                base.append("\n")
+            }
+            content = base + newLines.joined(separator: "\n") + "\n"
+        } else {
+            content = ([header] + newLines).joined(separator: "\n") + "\n"
         }
+        return (Data(content.utf8), newLines.count)
     }
 
-    private static func existingUUIDs(in fileURL: URL, uuidColumnIndex: Int) throws -> Set<String> {
-        guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            return []
-        }
-        let content = try String(contentsOf: fileURL, encoding: .utf8)
-        var uuids = Set<String>()
+    private static func uuids(in content: String?, uuidColumnIndex: Int) -> Set<String> {
+        guard let content else { return [] }
+        var values = Set<String>()
         for (index, line) in content.split(whereSeparator: \.isNewline).enumerated() {
             if index == 0 { continue }
             let columns = parseCSVLine(String(line))
             guard columns.count > uuidColumnIndex else { continue }
-            uuids.insert(columns[uuidColumnIndex])
+            values.insert(columns[uuidColumnIndex])
         }
-        return uuids
+        return values
     }
 
     /// Minimal CSV line parser for uuid extraction (handles quoted fields).

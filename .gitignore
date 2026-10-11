@@ -29,3 +29,5 @@ Package.resolved
 .env
 .env.*
 Config/SentryAuth.local.xcconfig
+Config/Google.local.xcconfig
+firebase-debug.log

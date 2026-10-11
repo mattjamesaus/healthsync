@@ -1,9 +1,7 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject private var appModel: AppModel
-    @State private var showingImporter = false
 
     var body: some View {
         NavigationStack {
@@ -15,24 +13,19 @@ struct ContentView: View {
                 shortcutsSection
             }
             .navigationTitle("Health Sync")
-            // Readable column width on iPad / landscape.
             .frame(maxWidth: 720)
             .frame(maxWidth: .infinity)
-            .fileImporter(
-                isPresented: $showingImporter,
-                allowedContentTypes: [.folder],
-                allowsMultipleSelection: false
-            ) { result in
-                handleFolderPick(result)
+            .task {
+                await appModel.restoreGoogleSession()
             }
         }
     }
 
     private var statusSection: some View {
         Section("Status") {
-            LabeledContent("Destination") {
-                Text(appModel.bookmarks.displayName ?? "Not set")
-                    .foregroundStyle(appModel.bookmarks.hasDestination ? .primary : .secondary)
+            LabeledContent("Google Drive") {
+                Text(appModel.googleAuth.accountEmail ?? "Not connected")
+                    .foregroundStyle(appModel.googleAuth.isConnected ? .primary : .secondary)
             }
             LabeledContent("Last sync") {
                 Text(formatted(appModel.watermarks.lastSyncCompletedAt) ?? "Never")
@@ -57,22 +50,28 @@ struct ContentView: View {
     }
 
     private var destinationSection: some View {
-        Section("Save folder") {
-            Button {
-                showingImporter = true
-            } label: {
-                Label(
-                    appModel.bookmarks.hasDestination ? "Change folder…" : "Choose folder…",
-                    systemImage: "folder"
-                )
-            }
-            if appModel.bookmarks.hasDestination {
-                Button("Clear saved folder", role: .destructive) {
-                    appModel.bookmarks.clear()
+        Section("Google Drive") {
+            if appModel.googleAuth.isConnected {
+                Button("Disconnect", role: .destructive) {
+                    Task { await appModel.disconnectGoogle() }
                 }
+                .disabled(appModel.googleAuth.isWorking)
+            } else {
+                Button {
+                    Task { await appModel.connectGoogle() }
+                } label: {
+                    HStack {
+                        Label("Connect Google Drive", systemImage: "person.crop.circle.badge.plus")
+                        Spacer()
+                        if appModel.googleAuth.isWorking {
+                            ProgressView()
+                        }
+                    }
+                }
+                .disabled(appModel.googleAuth.isWorking)
             }
             Text(
-                "Pick an iCloud Drive or Google Drive folder in Files. Health Sync remembers it for Sync Now and Shortcuts."
+                "Health Sync signs you into Google and writes CSV into My Drive/HealthSync. It does not use the Files app."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)
@@ -94,7 +93,7 @@ struct ContentView: View {
             }
             .disabled(
                 appModel.isSyncing
-                    || !appModel.bookmarks.hasDestination
+                    || !appModel.googleAuth.isConnected
                     || appModel.metricSelection.enabledMetrics.isEmpty
             )
 
@@ -133,21 +132,6 @@ struct ContentView: View {
             )
             .font(.footnote)
             .foregroundStyle(.secondary)
-        }
-    }
-
-    private func handleFolderPick(_ result: Result<[URL], Error>) {
-        switch result {
-        case .success(let urls):
-            guard let url = urls.first else { return }
-            do {
-                try appModel.bookmarks.save(folderURL: url)
-                appModel.lastErrorMessage = nil
-            } catch {
-                appModel.lastErrorMessage = error.localizedDescription
-            }
-        case .failure(let error):
-            appModel.lastErrorMessage = error.localizedDescription
         }
     }
 
