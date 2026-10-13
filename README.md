@@ -97,3 +97,10 @@ See [docs/privacy.html](docs/privacy.html). Health data stays on device until yo
 ## Error reporting
 
 Sync failures and crashes are sent to Sentry. The client DSN lives in `Config/Secrets.xcconfig`. The Upload Debug Symbols build phase sends dSYMs when `SENTRY_AUTH_TOKEN` is set in the build environment or in gitignored `Config/SentryAuth.local.xcconfig` (see the example next to it). Authorization headers, tokens, CSV bodies, and Health samples are not attached.
+
+## Private TestFlight distribution
+
+See [the private beta runbook](docs/testflight.md) for Apple setup, a repeatable
+Release archive/upload script, and physical-device reliability checks. Use
+**TestFlight Internal Only** and the owner-only internal group. CI builds Debug
+and Release without credentials; it does not upload or distribute builds.

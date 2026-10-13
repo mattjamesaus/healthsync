@@ -43,7 +43,6 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         DEVELOPMENT_TEAM: QRJV5T3359
         CODE_SIGN_STYLE: Automatic
-        CODE_SIGN_IDENTITY: "Apple Development"
         SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: false
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
@@ -88,3 +87,13 @@ targets:
         UIRequiresFullScreen: false
         NSHealthShareUsageDescription: Health Sync reads your Health data to export CSV into your own Google Drive.
         NSHealthUpdateUsageDescription: Health Sync does not write health data; this permission is unused.
+
+schemes:
+  HealthSync:
+    build:
+      targets:
+        HealthSync: all
+    run:
+      config: Debug
+    archive:
+      config: Release
