@@ -1,4 +1,4 @@
-# Health Sync: owner-only TestFlight
+# HealthSync: owner-only TestFlight
 
 ## Distribution boundary
 
@@ -162,3 +162,12 @@ References:
 - https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers
 - https://developer.apple.com/news/upcoming-requirements/?id=04282026a
 - https://developer.apple.com/documentation/technotes/tn3183-adding-required-reason-api-entries-to-your-privacy-manifest
+
+## Setup completed on 13 October 2026
+
+App Store Connect record created: Apple ID 6822114620, SKU healthsync-personal,
+English (Australia), existing bundle com.mattjamesaus.HealthSyncApp.
+Apple rejected both "Health Sync" and "HealthSync" as unavailable names.
+The device display name is HealthSync; the Connect record needs the unique
+name HealthSync Personal. No build has been uploaded. Debug and Release CI
+passed on Xcode 26.3 for the initial distribution workflow commit.

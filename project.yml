@@ -64,8 +64,8 @@ targets:
     info:
       path: HealthSync/Info.plist
       properties:
-        CFBundleDisplayName: Health Sync
-        CFBundleName: Health Sync
+        CFBundleDisplayName: HealthSync
+        CFBundleName: HealthSync
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         SentryDSN: "$(SENTRY_DSN)"

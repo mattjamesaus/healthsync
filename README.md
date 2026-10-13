@@ -1,4 +1,4 @@
-# Health Sync
+# HealthSync
 
 Personal iOS/iPadOS app that incrementally exports Apple Health data (workouts, activity, heart, sleep, and more) as CSV into a HealthSync folder in the user’s own Google Drive, so agents and tools can read it on a schedule.
 
